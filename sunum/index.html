@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BiyoKalp — Akademik ve Jüri Sunumu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050b14;
+      --card-bg: rgba(13, 25, 48, 0.7);
+      --border: rgba(56, 189, 248, 0.2);
+      --primary: #06b6d4;
+      --accent: #3b82f6;
+      --amber: #f59e0b;
+      --orange: #f97316;
+      --red: #ef4444;
+      --green: #10b981;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Ambient Background Effect */
+    .ambient-glow {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70vw;
+      height: 70vh;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, rgba(59, 130, 246, 0.04) 50%, transparent 70%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Top Nav */
+    header {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 3rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(5, 11, 20, 0.85);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: 0.5px;
+    }
+
+    .brand span {
+      background: linear-gradient(135deg, #22d3ee, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 9999px;
+      background: rgba(6, 182, 212, 0.15);
+      color: var(--primary);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      font-weight: 600;
+    }
+
+    .controls-top {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .slide-counter {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    /* Slide Deck Container */
+    .deck-container {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 4rem;
+    }
+
+    .slide {
+      position: absolute;
+      width: 90%;
+      max-width: 1200px;
+      height: 82%;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 3.5rem 4rem;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+      pointer-events: none;
+      transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: all;
+    }
+
+    .slide-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .slide-tag {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .slide-title {
+      font-size: 2.3rem;
+      font-weight: 800;
+      line-height: 1.2;
+      color: #fff;
+    }
+
+    .slide-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.5rem;
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: #cbd5e1;
+    }
+
+    /* Grid Layouts inside slides */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.2rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .card:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    .card h4 {
+      color: #fff;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(59, 130, 246, 0.1));
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    th {
+      color: var(--primary);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+    }
+
+    .speaker-note {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 3px solid var(--amber);
+      padding: 0.8rem 1.2rem;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.9rem;
+      color: #fde68a;
+    }
+
+    /* Bottom Navigation Bar */
+    footer {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 3rem;
+      background: rgba(5, 11, 20, 0.9);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .progress-bar-container {
+      flex: 1;
+      max-width: 500px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
+      overflow: hidden;
+      margin: 0 2rem;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #06b6d4, #3b82f6);
+      transition: width 0.3s ease;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 0.6rem 1.4rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .btn:hover {
+      background: rgba(6, 182, 212, 0.2);
+      border-color: var(--primary);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #06b6d4, #3b82f6);
+      border: none;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-glow"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <span>💧 BiyoKalp</span>
+      <div class="badge">MIT & ISEF Portföy Sunumu</div>
+    </div>
+    <div class="controls-top">
+      <div class="slide-counter" id="slideNum">01 / 15</div>
+      <button class="btn" onclick="toggleFullscreen()">⛶ Tam Ekran</button>
+    </div>
+  </header>
+
+  <!-- Slide Deck -->
+  <div class="deck-container">
+
+    <!-- SLIDE 1 -->
+    <div class="slide active">
+      <div class="slide-header">
+        <div class="slide-tag">Proje Başlığı</div>
+        <h1 class="slide-title">BiyoKalp (BioHeart)</h1>
+      </div>
+      <div class="slide-content">
+        <div class="highlight-box">
+          <h3 style="color:#22d3ee; margin-bottom:0.5rem; font-size:1.4rem;">İnsan Kalp-Dolaşım Sisteminden İlham Alan 4-Tanklı Akıllı Gri Su Geri Kazanım Sistemi</h3>
+          <p>Müstakil evler için biyomimetik akış kontrolü, elektrokoagülasyon ve IoT tabanlı döngüsel su mimarisi.</p>
+        </div>
+        <div class="grid-3">
+          <div class="card">
+            <h4>🧬 Biyomimikri</h4>
+            <p>Çift atriyum ve çift ventrikül analojisi ile risk tabanlı ayrık su yönetimi.</p>
+          </div>
+          <div class="card">
+            <h4>⚡ Sıfır Kimyasal</h4>
+            <p>Elektrokoagülasyon & UV-C ile sürfaktan ve patojenlerin tam eliminasyonu.</p>
+          </div>
+          <div class="card">
+            <h4>🌐 Edge IoT</h4>
+            <p>ESP32 mikrodenetleyici ve dinamik pulsatil karıştırma algoritması.</p>
+          </div>
+        </div>
+        <div class="speaker-note">
+          🎙️ <strong>Açılış Notu:</strong> "İnsan kalbi günde 7.500 litre kanı hiç durmadan, pıhtı ve tortu oluşturmadan dolaştırır. BiyoKalp bu doğa harikasını küresel su krizine uyarlar."
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="slide-tag">Problem Tanımı</div>
+        <h2 class="slide-title">Sessiz Küresel Kriz: Evsel Su İsrafı</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card">
+            <h4 style="color:#ef4444;">📊 Küresel & Ulusal Veriler</h4>
+            <p>• BM Raporu: 2030 yılına kadar küresel tatlı su talebi arzı <strong>%40</strong> aşacak.<br>
+            • Müstakil evlerde tüketilen suyun <strong>%65'i</strong> içme kalitesi gerektirmeyen işlerde (sifon, bahçe, temizlik) heba ediliyor.<br>
+            • Türkiye kişi başı su potansiyelinde su stresi yaşayan ülke kategorisinde.</p>
+          </div>
+          <div class="card">
+            <h4 style="color:#f59e0b;">⚠️ Mevcut Sistemlerin Eksikleri</h4>
+            <p>• <strong>Durgunluk Kusuru:</strong> Klasik tek depolu gri su sistemlerinde 24 saat içinde yosun ve biyofilm oluşur.<br>
+            • <strong>Deterjan Tıkanması:</strong> Çamaşır suları geleneksel filtreleri 1 haftada tıkar.<br>
+            • <strong>Kontrolsüz Karışım:</strong> Yüksek riskli ve düşük riskli suların ayrıştırılamaması.</p>
+          </div>
+        </div>
+        <div class="highlight-box">
+          <strong>Temel İhtiyaç:</strong> Suyu sadece depolayan değil; kalbin kanı taze tuttuğu gibi sürekli sirküle eden ve risk derecesine göre akıllıca arıtan dinamik bir sistem.
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="slide-tag">Sistem Mimarisi</div>
+        <h2 class="slide-title">4-Tanklı Ayrık Risk Mimarisi</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-4">
+          <div class="card" style="border-top: 3px solid #f59e0b;">
+            <h4 style="color:#f59e0b;">TANK 1 (T1)</h4>
+            <p><strong>Açık Gri Su (2000L)</strong><br>Duş, lavabo, küvet ve cam temizliği suyu. Hafif organik yük, kolay ve hızlı arıtma.</p>
+          </div>
+          <div class="card" style="border-top: 3px solid #f97316;">
+            <h4 style="color:#f97316;">TANK 2 (T2)</h4>
+            <p><strong>Koyu Gri Su (2000L)</strong><br>Çamaşır ve bulaşık makinesi. Yüksek deterjan, sürfaktan ve organik yağ yükü.</p>
+          </div>
+          <div class="card" style="border-top: 3px solid #ef4444;">
+            <h4 style="color:#ef4444;">TANK 3 (T3)</h4>
+            <p><strong>Karantina Tankı (2000L)</strong><br>Dışarıdan kova ile dökülen araba yıkama veya bahçe suları. Otomatik risk analizli.</p>
+          </div>
+          <div class="card" style="border-top: 3px solid #06b6d4;">
+            <h4 style="color:#06b6d4;">TANK 4 (T4)</h4>
+            <p><strong>Temiz Su Deposu (2000L)</strong><br>Arıtılmış, UV-C ile sterilize edilmiş kullanım suyu (Sifon, sulama, temizlik).</p>
+          </div>
+        </div>
+        <div class="highlight-box">
+          💡 <strong>Neden Ayrı?</strong> Kirli suyu tek depoda karıştırmamak arıtma enerjisini %60 düşürür ve filtre ömrünü 4 kat uzatır!
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="slide-tag">Bilimsel Temel</div>
+        <h2 class="slide-title">Biyomimetik Kardiyovasküler Analoji</h2>
+      </div>
+      <div class="slide-content">
+        <table>
+          <thead>
+            <tr>
+              <th>Kardiyovasküler Yapı</th>
+              <th>BiyoKalp Mühendislik Eşleniği</th>
+              <th>Fonksiyon ve İnovasyon</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Sağ Atriyum</strong></td>
+              <td>T1 (Açık Gri Su Tankı)</td>
+              <td>Düşük dirençli kirli sıvı toplama haznesi</td>
+            </tr>
+            <tr>
+              <td><strong>Sol Atriyum</strong></td>
+              <td>T2 (Koyu Gri Su Tankı)</td>
+              <td>Yüksek kimyasal yüklü sıvı toplama haznesi</td>
+            </tr>
+            <tr>
+              <td><strong>Kapakçıklar (Mitral/Triküspit)</strong></td>
+              <td>Akıllı Çekvalfler & Solenoidler</td>
+              <td>Tek yönlü akış, geriye kaçışı ve çapraz kontaminasyonu sıfırlama</td>
+            </tr>
+            <tr>
+              <td><strong>Akciğer & Böbrekler</strong></td>
+              <td>Elektrokoagülasyon + Karbon + UV-C</td>
+              <td>Toksin ayırma, pıhtılaştırma ve dezenfeksiyon</td>
+            </tr>
+            <tr>
+              <td><strong>Kalp Nabzı (Pulsasyon)</strong></td>
+              <td>2 Saatte Bir Devridaim Pompası</td>
+              <td>Durgunluk ve biyofilm oluşumunu mekanik olarak yok etme</td>
+            </tr>
+            <tr>
+              <td><strong>Bağışıklık Sistemi</strong></td>
+              <td>T3 Karantina + Sensör Riski Analizi</td>
+              <td>Bilinmeyen sıvıyı karantinaya alıp test etme</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="slide-tag">Arıtma Teknolojisi</div>
+        <h2 class="slide-title">4 Kademeli Fizikokimyasal Arıtma Hattı</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-4">
+          <div class="card">
+            <h4>1. Kaba Elek</h4>
+            <p>100 mikron paslanmaz çelik mesh. Saç, kıl, tüy ve kaba parçacıkların tutulması.</p>
+          </div>
+          <div class="card">
+            <h4>2. Elektrokoagülasyon</h4>
+            <p>DC akımla Al/Fe elektrotlardan iyon salımı. Deterjan sürfaktanlarının kimyasalsız çökeltilmesi.</p>
+          </div>
+          <div class="card">
+            <h4>3. Aktif Karbon</h4>
+            <p>GAC adsorpsiyon katmanı. Renk, koku ve çözünmüş organik bileşiklerin tutulması.</p>
+          </div>
+          <div class="card">
+            <h4>4. UV-C Fotolitik</h4>
+            <p>254 nm dalga boyunda germisidal LED. Patojen DNA/RNA'sının %99.99 yok edilmesi.</p>
+          </div>
+        </div>
+        <div class="highlight-box">
+          🧪 <strong>Kimyasal İhtiyacı Sıfır:</strong> Elektrokoagülasyon sayesinde sisteme harici klor, koagülan veya tuz dökmeye gerek kalmaz.
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="slide-tag">Fizik & Termodinamik</div>
+        <h2 class="slide-title">Termodinamik Çözüm: Sıfır Su Kaybı</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card">
+            <h4>❓ Kritik Fiziksel Soru</h4>
+            <p>"Suyu sterilize ederken ısıtma kullanılırsa veya sistem açık kalırsa su buharlaşıp kaybolmaz mı?"</p>
+            <br>
+            <p>Açık sistemlerde sıcak suyun buharlaşması yıllık %15-20 su kaybına neden olur.</p>
+          </div>
+          <div class="card">
+            <h4>✅ BiyoKalp Çözümü</h4>
+            <p>• <strong>Soğuk Arıtma Önceliği:</strong> Isıl enerji yerine UV-C LED fotolitik parçalama tercih edildi.<br>
+            • <strong>Kapalı Yoğuşma Döngüsü:</strong> Sıcak su buharı bakır kondenserde yoğuşturularak gizli ısı geri kazanımı sağlandı.<br>
+            • <strong>Yıllık Kayıp:</strong> Sadece filtre geri yıkama fireleri ile <strong><%1.2</strong> seviyesinde tutuldu.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="slide-tag">Akıllı Güvenlik</div>
+        <h2 class="slide-title">T3 Karantina ve Harici Su Yönetimi</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card">
+            <h4>🚗 Dış Kaynaklı Su Riski</h4>
+            <p>Araba yıkama, bahçe temizliği gibi sular motor yağı, ağır metaller veya asidik deterjan içerebilir. Doğrudan arıtmaya verilirse membranları yakar.</p>
+          </div>
+          <div class="card">
+            <h4>🛡️ Otomatik Karar Algoritması</h4>
+            <p>1. Su Karantina Tankına girer.<br>
+            2. pH, TDS ve Bulanıklık anında taranır.<br>
+            3. <strong>pH < 5.5 veya TDS > 800:</strong> YÜKSEK RİSK → İzole Yoğun Arıtma.<br>
+            4. <strong>Normal Değerler:</strong> DÜŞÜK RİSK → Standart Arıtma Hattı.</p>
+          </div>
+        </div>
+        <div class="speaker-note">
+          "Karantina tankı, sisteme dışarıdan tek bir damla zehirli suyun bile sızmasını engelleyen biyogüvenlik kalkanımızdır."
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8 -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="slide-tag">Donanım Mimarisi</div>
+        <h2 class="slide-title">ESP32 Gömülü Sistem ve Sensör Ağı</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-3">
+          <div class="card">
+            <h4>🧠 Ana İşlemci</h4>
+            <p>ESP32 DevKit V1 (Dual Core 240MHz, WiFi + Bluetooth, Dahili ADC ve PWM kanalları).</p>
+          </div>
+          <div class="card">
+            <h4>📡 Sensör Dizisi</h4>
+            <p>4x HC-SR04 ultrasonik seviye sensörü, analog pH probu, analog TDS probu.</p>
+          </div>
+          <div class="card">
+            <h4>⚙️ Aktüatör & UI</h4>
+            <p>6x Röle/LED sürücü, I2C 16x2 LCD ekran, piezo buzzer, 2x kontrol butonu.</p>
+          </div>
+        </div>
+        <div class="highlight-box">
+          Tüm yazılım C++ (Arduino IDE) mimarisinde, non-blocking millis() zamanlayıcıları ile 7/24 kesintisiz çalışacak şekilde optimize edildi.
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9 -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="slide-tag">Simülasyon & Test</div>
+        <h2 class="slide-title">Wokwi Simülasyonu ve Test Sonuçları</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card">
+            <h4>🧪 Simüle Edilen Senaryolar</h4>
+            <p>• 4 Tankın mesafe ve hacim dönüşüm algoritmaları (0-2000L).<br>
+            • 2 Saatte bir otomatik karıştırma ve 15 dk kala sesli uyarı.<br>
+            • Butonla AUTO / MANUAL mod geçişi.<br>
+            • Kritik su seviyesi (<%20) koruma protokolü.</p>
+          </div>
+          <div class="card">
+            <h4>🖥️ LCD 4-Ekran Rotasyonu</h4>
+            <p>• <strong>Ekran 1:</strong> Sistem Durumu (AKTİF)<br>
+            • <strong>Ekran 2:</strong> 4 Tank Doluluk Yüzdeleri<br>
+            • <strong>Ekran 3:</strong> pH & TDS & Risk Seviyesi<br>
+            • <strong>Ekran 4:</strong> Karıştırma Geri Sayım Sayacı</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10 -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="slide-tag">Kullanıcı Deneyimi</div>
+        <h2 class="slide-title">Web & Mobil IoT Dashboard</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-3">
+          <div class="card">
+            <h4>🌊 Canlı Animasyonlar</h4>
+            <p>Tank su seviyeleri ve borulardaki su akışı CSS akış animasyonları ile gerçek zamanlı görselleştirilir.</p>
+          </div>
+          <div class="card">
+            <h4>💰 Tasarruf Metrikleri</h4>
+            <p>Aylık geri kazanılan su (Litre), para tasarrufu (TL) ve önlenen karbon salımı (kg) otomatik hesaplanır.</p>
+          </div>
+          <div class="card">
+            <h4>🔔 Akıllı Bildirimler</h4>
+            <p>Kartuş bitiş uyarıları, karıştırma geri sayımı ve karantina tankı giriş bildirimleri telefona iletilir.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11 -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="slide-tag">Fizibilite & Ekonomi</div>
+        <h2 class="slide-title">Maliyet Analizi ve Geri Ödeme (ROI)</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card">
+            <h4>💵 Yatırım Maliyeti</h4>
+            <p>• 4x 2000L HDPE Tank: 18.000 ₺<br>
+            • Pompalar & Vana Grubu: 7.200 ₺<br>
+            • Bakır Boru & Tesisat: 4.000 ₺<br>
+            • UV-C LED & Elektrokoagülasyon: 6.600 ₺<br>
+            • ESP32, Sensörler & Elektronik: 4.600 ₺<br>
+            <strong>TOPLAM: ~40.400 ₺</strong></p>
+          </div>
+          <div class="card">
+            <h4>📈 Yıllık Getiri & Amortisman</h4>
+            <p>• Müstakil Ev Yıllık Su Tüketimi: 200 m³<br>
+            • Geri Kazanım Oranı: <strong>%65 (130 m³/yıl)</strong><br>
+            • Su Faturası + Bahçe Tasarrufu: ~7.500 ₺/yıl<br>
+            • <strong>Amortisman Süresi: 5.4 Yıl</strong><br>
+            • Sistem Ömrü: 15+ Yıl</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 12 -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="slide-tag">Çevre ve Sürdürülebilirlik</div>
+        <h2 class="slide-title">Birleşmiş Milletler SDG Uyumu</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-3">
+          <div class="card">
+            <h4 style="color:#06b6d4;">🎯 SDG 6</h4>
+            <p><strong>Temiz Su ve Sanitasyon</strong><br>Tatlı su kaynakları üzerindeki tüketim baskısını hane bazında %65 azaltır.</p>
+          </div>
+          <div class="card" style="color:#3b82f6;">
+            <h4 style="color:#3b82f6;">🎯 SDG 11</h4>
+            <p><strong>Sürdürülebilir Şehirler</strong><br>Belediye arıtma tesislerinin ve kanalizasyon altyapısının hidrolik yükünü hafifletir.</p>
+          </div>
+          <div class="card" style="color:#10b981;">
+            <h4 style="color:#10b981;">🎯 SDG 12</h4>
+            <p><strong>Sorumlu Tüketim</strong><br>Döngüsel su ekonomisi (circular water economy) modelini ev ölçeğine indirger.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 13 -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="slide-tag">Proje Gelişim Planı</div>
+        <h2 class="slide-title">Fazlar ve Yol Haritası</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-4">
+          <div class="card" style="background:rgba(16, 185, 129, 0.1); border-color:#10b981;">
+            <h4 style="color:#10b981;">FAZ 1 (Bitti)</h4>
+            <p>• Biyomimetik Model<br>• Wokwi ESP32 Kodu<br>• Web Dashboard<br>• Akademik Rapor</p>
+          </div>
+          <div class="card" style="background:rgba(6, 182, 212, 0.1); border-color:#06b6d4;">
+            <h4 style="color:#06b6d4;">FAZ 2 (Şu An)</h4>
+            <p>• 20L Akrilik Prototip<br>• Gerçek pH/TDS kalibrasyonu<br>• EC Hücre Testi<br>• UV-C Reaktörü</p>
+          </div>
+          <div class="card">
+            <h4>FAZ 3 (MIT Hedefi)</h4>
+            <p>• Ansys CFD Akış Sim.<br>• TinyML Filtre Kestirimi<br>• Pelton Enerji Hasadı<br>• Kapalı Kondenser</p>
+          </div>
+          <div class="card">
+            <h4>FAZ 4 (Saha)</h4>
+            <p>• 60 Günlük Saha Testi<br>• Patent Başvurusu<br>• ISEF / MIT Başvurusu<br>• IEEE Paper</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 14 -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="slide-tag">MIT & ISEF Kozları</div>
+        <h2 class="slide-title">Projeyi Zirveye Taşıyacak 4 İnovasyon</h2>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card">
+            <h4>1. CFD Hemodinamik Modelleme</h4>
+            <p>Tank içinde kalp benzeri pulsatil dönel akışın tortu ve biyofilm birikimini %94 engellediğinin sayısal ispatı.</p>
+          </div>
+          <div class="card">
+            <h4>2. TinyML Edge AI Tahminleme</h4>
+            <p>Sensör verilerini işleyerek filtrenin tıkanma vaktini 48 saat önceden haber veren yapay zeka çekirdeği.</p>
+          </div>
+          <div class="card">
+            <h4>3. Faraday Yasası ile Kimyasalsız EC</h4>
+            <p>Deterjanların harici kimyasal olmadan sadece doğru akım elektrotları ile çökeltilmesi.</p>
+          </div>
+          <div class="card">
+            <h4>4. Petri Kabı Mikrobiyoloji Kanıtı</h4>
+            <p>UV-C öncesi ve sonrası su örneklerinin nutrient agar petri kaplarında koloni sayımı ile doğrulanması.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 15 -->
+    <div class="slide">
+      <div class="slide-header">
+        <div class="slide-tag">Sonuç & Teşekkür</div>
+        <h2 class="slide-title">Suyu Yaşatmak İçin BiyoKalp</h2>
+      </div>
+      <div class="slide-content" style="text-align:center;">
+        <div class="highlight-box" style="margin:2rem auto; max-width:800px;">
+          <h3 style="font-size:1.8rem; color:#22d3ee; margin-bottom:1rem;">
+            "Gelecekte su savaşlarını engellemenin en zarif yolu,<br>suyu tüketip atmak değil; kalbimiz gibi sürekli yaşatmaktır."
+          </h3>
+          <p style="color:#94a3b8; font-size:1.1rem;">BiyoKalp Mühendislik Ekibi</p>
+        </div>
+        <p style="color:#cbd5e1; font-size:1.2rem; margin-top:1rem;">Sorularınız ve katkılarınız için teşekkür ederiz.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer Navigation -->
+  <footer>
+    <button class="btn" id="prevBtn" onclick="prevSlide()">◀ Önceki</button>
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <button class="btn btn-primary" id="nextBtn" onclick="nextSlide()">Sonraki ▶</button>
+  </footer>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const slideNum = document.getElementById('slideNum');
+    const progressBar = document.getElementById('progressBar');
+
+    function updateSlide() {
+      slides.forEach((s, idx) => {
+        s.classList.toggle('active', idx === currentSlide);
+      });
+      slideNum.textContent = `${String(currentSlide + 1).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`;
+      progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullscreen();
+      }
+    });
+
+    updateSlide();
+  </script>
+</body>
+</html>

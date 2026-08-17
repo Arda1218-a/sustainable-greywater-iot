@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiyoKalp | Akıllı Su Geri Kazanım</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="glass-panel">
+        <div class="logo-area">
+            <div class="heartbeat-icon">💧</div>
+            <div class="logo-text">
+                <h1>BiyoKalp</h1>
+                <span>Akıllı Su Geri Kazanım Sistemi</span>
+            </div>
+        </div>
+        
+        <div class="header-right">
+            <div class="system-status pulse-active">
+                <span class="status-dot"></span>
+                <span>SİSTEM AKTİF</span>
+            </div>
+            <div class="datetime">
+                <span id="current-time">00:00:00</span>
+                <span id="current-date">01 Jan 2026</span>
+            </div>
+            <button class="btn btn-primary" onclick="openModal()">+ Harici Su Ekle</button>
+        </div>
+    </header>
+
+    <main class="dashboard-grid">
+        <!-- Tanks Section -->
+        <section class="tanks-container">
+            <!-- T1 -->
+            <div class="tank-card glass-panel" id="tank-1">
+                <div class="tank-header">
+                    <h3>T1: Açık Gri Su</h3>
+                    <span class="badge badge-amber" id="t1-status">Normal</span>
+                </div>
+                <div class="tank-visual">
+                    <div class="tank-outline">
+                        <div class="water-level bg-amber" id="t1-level" style="height: 75%;">
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                        </div>
+                    </div>
+                    <div class="tank-stats">
+                        <div class="stat-value"><span id="t1-vol">1500</span> / 2000 L</div>
+                        <div class="stat-weight"><span id="t1-weight">1500</span> kg</div>
+                        <div class="stat-desc">Duş, Küvet, Lavabo</div>
+                    </div>
+                </div>
+                <div class="mix-control">
+                    <div class="mix-info">
+                        <span>Karıştırma:</span>
+                        <span class="countdown" id="t1-timer">02:00:00</span>
+                    </div>
+                    <div class="mix-actions">
+                        <button class="btn btn-sm btn-outline" onclick="mixTank(1)">Şimdi</button>
+                        <label class="switch">
+                            <input type="checkbox" id="t1-auto" onchange="toggleAutoMix(1)" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="auto-label">Oto</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- T2 -->
+            <div class="tank-card glass-panel" id="tank-2">
+                <div class="tank-header">
+                    <h3>T2: Koyu Gri Su</h3>
+                    <span class="badge badge-orange" id="t2-status">Normal</span>
+                </div>
+                <div class="tank-visual">
+                    <div class="tank-outline">
+                        <div class="water-level bg-orange" id="t2-level" style="height: 75%;">
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                        </div>
+                    </div>
+                    <div class="tank-stats">
+                        <div class="stat-value"><span id="t2-vol">1500</span> / 2000 L</div>
+                        <div class="stat-weight"><span id="t2-weight">1500</span> kg</div>
+                        <div class="stat-desc">Çamaşır, Bulaşık</div>
+                    </div>
+                </div>
+                <div class="mix-control">
+                    <div class="mix-info">
+                        <span>Karıştırma:</span>
+                        <span class="countdown" id="t2-timer">02:00:00</span>
+                    </div>
+                    <div class="mix-actions">
+                        <button class="btn btn-sm btn-outline" onclick="mixTank(2)">Şimdi</button>
+                        <label class="switch">
+                            <input type="checkbox" id="t2-auto" onchange="toggleAutoMix(2)" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="auto-label">Oto</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- T3 -->
+            <div class="tank-card glass-panel" id="tank-3">
+                <div class="tank-header">
+                    <h3>T3: Karantina</h3>
+                    <span class="badge badge-red" id="t3-status">Dikkat</span>
+                </div>
+                <div class="tank-visual">
+                    <div class="tank-outline">
+                        <div class="water-level bg-red" id="t3-level" style="height: 75%;">
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                        </div>
+                    </div>
+                    <div class="tank-stats">
+                        <div class="stat-value"><span id="t3-vol">1500</span> / 2000 L</div>
+                        <div class="stat-weight"><span id="t3-weight">1500</span> kg</div>
+                        <div class="stat-desc">Harici / Yıkama</div>
+                    </div>
+                </div>
+                <div class="mix-control">
+                    <div class="mix-info">
+                        <span>Karıştırma:</span>
+                        <span class="countdown" id="t3-timer">02:00:00</span>
+                    </div>
+                    <div class="mix-actions">
+                        <button class="btn btn-sm btn-outline" onclick="mixTank(3)">Şimdi</button>
+                        <label class="switch">
+                            <input type="checkbox" id="t3-auto" onchange="toggleAutoMix(3)" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="auto-label">Oto</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- T4 -->
+            <div class="tank-card glass-panel" id="tank-4">
+                <div class="tank-header">
+                    <h3>T4: Temiz Su</h3>
+                    <span class="badge badge-cyan" id="t4-status">Dolu</span>
+                </div>
+                <div class="tank-visual">
+                    <div class="tank-outline">
+                        <div class="water-level bg-cyan" id="t4-level" style="height: 75%;">
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                        </div>
+                    </div>
+                    <div class="tank-stats">
+                        <div class="stat-value"><span id="t4-vol">1500</span> / 2000 L</div>
+                        <div class="stat-weight"><span id="t4-weight">1500</span> kg</div>
+                        <div class="stat-desc">Arıtılmış Çıkış</div>
+                    </div>
+                </div>
+                <div class="mix-control">
+                    <div class="mix-info">
+                        <span>Karıştırma:</span>
+                        <span class="countdown" id="t4-timer">02:00:00</span>
+                    </div>
+                    <div class="mix-actions">
+                        <button class="btn btn-sm btn-outline" onclick="mixTank(4)">Şimdi</button>
+                        <label class="switch">
+                            <input type="checkbox" id="t4-auto" onchange="toggleAutoMix(4)" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="auto-label">Oto</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Dashboard Body -->
+        <div class="dashboard-main-columns">
+            
+            <!-- Left Column: Flow & Quarantine -->
+            <div class="col-left">
+                <!-- Flow Diagram -->
+                <section class="glass-panel flow-diagram">
+                    <div class="panel-header">
+                        <h2>Arıtma Akışı</h2>
+                    </div>
+                    <div class="flow-container">
+                        <div class="flow-nodes">
+                            <div class="node-source">T1 / T2 / T3</div>
+                            <div class="pipe pipe-h"><div class="particles"></div></div>
+                            <div class="node process active">Kaba Elek</div>
+                            <div class="pipe pipe-h"><div class="particles"></div></div>
+                            <div class="node process">Elektrokoagülasyon</div>
+                            <div class="pipe pipe-h"><div class="particles"></div></div>
+                            <div class="node process">Aktif Karbon</div>
+                            <div class="pipe pipe-h"><div class="particles"></div></div>
+                            <div class="node process">UV-C Sterilizasyon</div>
+                            <div class="pipe pipe-h"><div class="particles"></div></div>
+                            <div class="node process">Kalite Kontrol</div>
+                            <div class="pipe pipe-h"><div class="particles"></div></div>
+                            <div class="node-dest">T4 (Temiz)</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quarantine Panel -->
+                <section class="glass-panel quarantine-panel">
+                    <div class="panel-header">
+                        <h2>T3 Karantina Analizi</h2>
+                        <span class="badge badge-red">Orta Risk</span>
+                    </div>
+                    <div class="quarantine-content">
+                        <div class="q-stats">
+                            <div class="q-stat">
+                                <span class="label">Patojen İzi</span>
+                                <span class="val">Tespit Edildi</span>
+                            </div>
+                            <div class="q-stat">
+                                <span class="label">Kimyasal</span>
+                                <span class="val">Normal</span>
+                            </div>
+                            <div class="q-stat">
+                                <span class="label">Bulanıklık</span>
+                                <span class="val high">Yüksek</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-danger btn-block" onclick="startQuarantinePurify()">Karantina Arıtmasını Başlat</button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column: Sensors, Cartridges, Savings -->
+            <div class="col-right">
+                <!-- Sensors -->
+                <section class="glass-panel sensors-panel">
+                    <div class="panel-header">
+                        <h2>Sensör Verileri</h2>
+                    </div>
+                    <div class="sensor-grid">
+                        <div class="sensor-item">
+                            <div class="sensor-circle" id="ph-circle">
+                                <div class="sensor-val" id="val-ph">7.2</div>
+                            </div>
+                            <div class="sensor-label">pH (6.5-8.5)</div>
+                        </div>
+                        <div class="sensor-item">
+                            <div class="sensor-circle" id="tds-circle">
+                                <div class="sensor-val" id="val-tds">340</div>
+                            </div>
+                            <div class="sensor-label">TDS (PPM)</div>
+                        </div>
+                        <div class="sensor-item">
+                            <div class="sensor-circle" id="turb-circle">
+                                <div class="sensor-val" id="val-turb">12</div>
+                            </div>
+                            <div class="sensor-label">Bulanıklık (NTU)</div>
+                        </div>
+                        <div class="sensor-item">
+                            <div class="sensor-circle" id="temp-circle">
+                                <div class="sensor-val" id="val-temp">24.5</div>
+                            </div>
+                            <div class="sensor-label">Sıcaklık (°C)</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Cartridges -->
+                <section class="glass-panel cartridge-panel">
+                    <div class="panel-header">
+                        <h2>Sarf Malzemeler</h2>
+                    </div>
+                    <div class="cartridge-list">
+                        <div class="cartridge-item">
+                            <div class="cart-info">
+                                <span>Koagülan</span>
+                                <span id="cart-1-val">65% (45 gün)</span>
+                            </div>
+                            <div class="progress-bg"><div class="progress-fill bg-cyan" style="width: 65%;"></div></div>
+                        </div>
+                        <div class="cartridge-item">
+                            <div class="cart-info">
+                                <span>Aktif Karbon</span>
+                                <span id="cart-2-val">30% (20 gün)</span>
+                            </div>
+                            <div class="progress-bg"><div class="progress-fill bg-cyan" style="width: 30%;"></div></div>
+                        </div>
+                        <div class="cartridge-item">
+                            <div class="cart-info">
+                                <span>UV-C Lamba</span>
+                                <span id="cart-3-val" class="text-amber">18% (12 gün)</span>
+                            </div>
+                            <div class="progress-bg"><div class="progress-fill bg-amber" style="width: 18%;"></div></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Savings -->
+                <section class="glass-panel savings-panel">
+                    <div class="panel-header">
+                        <h2>Aylık Tasarruf</h2>
+                    </div>
+                    <div class="savings-grid">
+                        <div class="saving-item">
+                            <div class="icon">💧</div>
+                            <div class="val" id="save-water">14,250 L</div>
+                            <div class="label">Su Kurtarıldı</div>
+                        </div>
+                        <div class="saving-item">
+                            <div class="icon">₺</div>
+                            <div class="val" id="save-money">213.75 TL</div>
+                            <div class="label">Maddi Tasarruf</div>
+                        </div>
+                        <div class="saving-item">
+                            <div class="icon">🌱</div>
+                            <div class="val" id="save-co2">4.5 kg</div>
+                            <div class="label">CO2 Azaltımı</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="add-water-modal">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h2>Harici Su Ekle</h2>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Su Kaynağı</label>
+                    <input type="text" placeholder="Örn: Araba yıkama suyu, yağmur suyu..." class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Tahmini Hacim (Litre)</label>
+                    <input type="number" placeholder="0" class="form-control">
+                </div>
+                <div class="alert alert-warning">
+                    ⚠️ Dikkat: Harici sular yüksek kirletici riski taşıdığından doğrudan T3 (Karantina) tankına alınacaktır.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal()">İptal</button>
+                <button class="btn btn-primary" onclick="submitWater()">Karantina Tankına Gönder</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
