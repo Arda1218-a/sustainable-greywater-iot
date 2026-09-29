@@ -88,6 +88,7 @@ void warnBuzzer();
 void mixStartBuzzer();
 void criticalBuzzer();
 void quarantineBuzzer();
+void runEdgeAIInference();
 void formatTime(unsigned long timeInSeconds, char* buffer);
 String getStatus(float pct);
 
@@ -276,13 +277,17 @@ void runEdgeAIInference() {
   anomalyScore = (phDeviation * 0.4) + (tdsStress * 0.6);
   if (anomalyScore > 1.0) anomalyScore = 1.0;
 
-  // 2. Filtre Sağlık İndeksi & Kalan Ömür Kestirimi
-  // Her yüksek stresli döngüde filtre ömrü yıpranır
-  float degradationRate = (anomalyScore * 0.05) + 0.005;
-  if (filterHealthIndex > degradationRate) {
-    filterHealthIndex -= degradationRate;
-  } else {
-    filterHealthIndex = 0.0;
+  // 2. Filtre Sağlık İndeksi & Kalan Ömür Kestirimi (Zamanlamalı Yıpranma)
+  static unsigned long lastDegradationTime = 0;
+  if (millis() - lastDegradationTime >= 5000) { // Her 5 saniyede bir stres yükü uygula
+    lastDegradationTime = millis();
+    // Normal şartlarda çok yavaş, anomali yüksekse (kirli su) hızlı yıpranır
+    float degradationRate = (anomalyScore * 0.10) + 0.01;
+    if (filterHealthIndex > degradationRate) {
+      filterHealthIndex -= degradationRate;
+    } else {
+      filterHealthIndex = 0.0;
+    }
   }
 
   // Kalan gün tahmini

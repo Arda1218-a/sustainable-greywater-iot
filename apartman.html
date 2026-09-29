@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BiyoKalp Tower — Çok Katlı ve Rezidans Akıllı Su Ağı</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="apartman.css">
+</head>
+<body>
+
+  <!-- Ambient Glow Effects -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-left">
+      <div class="logo-box">
+        <div class="logo-icon">🏢💧</div>
+        <div>
+          <h1 class="logo-title">BiyoKalp <span>Tower</span></h1>
+          <p class="logo-sub">Çok Katlı Yapılar & Rezidanslar İçin Biyomimetik Su Ağı</p>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="index.html" class="nav-btn">🏡 Müstakil Ev Modeli</a>
+        <a href="apartman.html" class="nav-btn active">🏢 Apartman / Rezidans Modeli</a>
+        <a href="sunum/index.html" class="nav-btn">📽️ Akademik Sunum</a>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <!-- Building Tier Selector -->
+      <div class="tier-selector">
+        <button class="tier-btn active" data-floors="5" data-flats="2" onclick="setBuildingTier(5, 2, this)">
+          <span class="tier-badge">Kademe 1</span>
+          <strong>5 Katlı</strong>
+          <small>10 Daire (2/kat)</small>
+        </button>
+        <button class="tier-btn" data-floors="10" data-flats="4" onclick="setBuildingTier(10, 4, this)">
+          <span class="tier-badge">Kademe 2</span>
+          <strong>10 Katlı</strong>
+          <small>40 Daire (4/kat)</small>
+        </button>
+        <button class="tier-btn" data-floors="20" data-flats="4" onclick="setBuildingTier(20, 4, this)">
+          <span class="tier-badge special">Kademe 3</span>
+          <strong>20+ Rezidans</strong>
+          <small>80 Daire (4/kat)</small>
+        </button>
+      </div>
+
+      <div class="status-badge" id="systemStatus">
+        <div class="status-pulse"></div>
+        <span>SİSTEM AKTİF & SİRKÜLASYONDA</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Grid Dashboard -->
+  <main class="dashboard-grid">
+
+    <!-- LEFT COLUMN: Real-Time Interactive Building Cross-Section -->
+    <section class="building-section glass-card">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">🏗️ Bina Hidrolik Kesit Görünümü</h2>
+          <p class="section-subtitle" id="buildingDesc">5 Katlı Apartman • 10 Daire • Merkezi Bodrum Santrali</p>
+        </div>
+        <div class="building-controls">
+          <button class="action-btn-sm" onclick="triggerRandomUsage()">⚡ Dairelerde Su Kullan</button>
+          <button class="action-btn-sm primary" onclick="forceCentralRefill()">🚀 Bodrumdan Yukarı Bas</button>
+        </div>
+      </div>
+
+      <!-- Building Visualization Canvas / Grid -->
+      <div class="building-viewport" id="buildingViewport">
+        <!-- Dynamically injected building floors & basement -->
+      </div>
+    </section>
+
+    <!-- RIGHT COLUMN: Analytics, Controls & Decentralized Tank Monitor -->
+    <section class="analytics-section">
+
+      <!-- Stats Metric Cards (Top Row) -->
+      <div class="stats-row">
+        <div class="metric-card glass-card">
+          <div class="metric-icon">💧</div>
+          <div class="metric-info">
+            <span class="metric-label">Günlük Geri Kazanım</span>
+            <h3 class="metric-val" id="dailyRecycled">8.420 <small>Litre</small></h3>
+            <span class="metric-trend positive">↑ %68 Şebeke Tasarrufu</span>
+          </div>
+        </div>
+
+        <div class="metric-card glass-card">
+          <div class="metric-icon">⚡</div>
+          <div class="metric-info">
+            <span class="metric-label">İniş Hattı Enerji Üretimi</span>
+            <h3 class="metric-val" id="energyHarvested">14.8 <small>kWh</small></h3>
+            <span class="metric-trend positive">⚡ 4x Pelton Mikro Türbin</span>
+          </div>
+        </div>
+
+        <div class="metric-card glass-card">
+          <div class="metric-icon">💰</div>
+          <div class="metric-info">
+            <span class="metric-label">Aylık Bina Tasarrufu</span>
+            <h3 class="metric-val" id="monthlySavings">12.650 <small>₺</small></h3>
+            <span class="metric-trend positive">Aidat Başı ~315 ₺ İndirim</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hydrostatic Pressure & Zoning Architecture -->
+      <div class="glass-card pressure-card">
+        <div class="section-header">
+          <h3 class="section-title">📊 Hidrostatik Basınç & Zon Dağılımı</h3>
+          <span class="badge" id="zoneBadge">Zonlama: Tek Hat (1-5 Kat)</span>
+        </div>
+        <div class="pressure-bars-grid" id="pressureBarsGrid">
+          <!-- Injected dynamically based on floors -->
+        </div>
+      </div>
+
+      <!-- Selected Floor / Flat Live Inspector -->
+      <div class="glass-card inspector-card">
+        <div class="section-header">
+          <div>
+            <h3 class="section-title" id="inspectorTitle">🔍 Daire İçi Rezerv & Akıllı Vana Denetçisi</h3>
+            <p class="section-subtitle">Daire seçmek için soldaki bina kesitinde daire kutularına tıklayın</p>
+          </div>
+          <span class="flat-badge" id="selectedFlatBadge">Daire 501 (Kat 5)</span>
+        </div>
+
+        <div class="inspector-content">
+          <div class="flat-tank-visual">
+            <div class="flat-tank-tank">
+              <div class="flat-water-wave" id="flatWaterLevel" style="height: 75%;"></div>
+              <div class="flat-tank-overlay">
+                <span class="flat-liters" id="flatLiters">560 L</span>
+                <span class="flat-pct" id="flatPct">%75 Dolu</span>
+              </div>
+            </div>
+            <div class="flat-tank-meta">
+              <div><strong>Kapasite:</strong> 750 L Tampon</div>
+              <div><strong>Kritik Eşik:</strong> 150 L</div>
+              <div><strong>Pompa Çağrısı:</strong> <span class="badge-success" id="flatPumpStatus">Beklemede (Dolu)</span></div>
+            </div>
+          </div>
+
+          <div class="flat-actions">
+            <button class="flat-btn" onclick="useFlatWater(100)">🚽 Sifon Çek (-100L)</button>
+            <button class="flat-btn" onclick="useFlatWater(250)">🚿 Duş / Temizlik (-250L)</button>
+            <button class="flat-btn primary" onclick="refillSelectedFlat()">⬆️ Bodrumdan Bu Daireyi Doldur</button>
+            <button class="flat-btn danger" onclick="toggleFlatIsolation()">⛔ Acil Kaçak Vanasını Kapat</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Basement Central Plant Quick Status -->
+      <div class="glass-card basement-summary-card">
+        <div class="section-header">
+          <h3 class="section-title">⚙️ Bodrum Kat Merkezi BiyoKalp Santrali</h3>
+          <span class="badge">4 Tanklı Biyomimetik Merkez</span>
+        </div>
+        <div class="basement-tanks-mini">
+          <div class="mini-tank-item">
+            <div class="mini-bar"><div class="mini-fill fill-t1" style="height: 65%;"></div></div>
+            <span><strong>T1 (Açık Gri)</strong><br>6.500L / 10.000L</span>
+          </div>
+          <div class="mini-tank-item">
+            <div class="mini-bar"><div class="mini-fill fill-t2" style="height: 80%;"></div></div>
+            <span><strong>T2 (Koyu Gri)</strong><br>8.000L / 10.000L</span>
+          </div>
+          <div class="mini-tank-item">
+            <div class="mini-bar"><div class="mini-fill fill-t3" style="height: 20%;"></div></div>
+            <span><strong>T3 (Karantina)</strong><br>2.000L / 10.000L</span>
+          </div>
+          <div class="mini-tank-item">
+            <div class="mini-bar"><div class="mini-fill fill-t4" style="height: 85%;"></div></div>
+            <span><strong>T4 (Temiz Rezerv)</strong><br>17.000L / 20.000L</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- NVIDIA AI Cloud Supervisor & Diagnostic Assistant -->
+      <div class="glass-card ai-assistant-card">
+        <div class="section-header">
+          <div>
+            <h3 class="section-title">🧠 BiyoKalp NVIDIA AI Baş Mühendisi</h3>
+            <p class="section-subtitle">Model: meta/llama-3.3-70b-instruct • Canlı Hidrolik & Risk Teşhisi</p>
+          </div>
+          <span class="badge" style="background:rgba(118, 185, 0, 0.15); color:#76b900; border-color:rgba(118, 185, 0, 0.3);">🟢 NVIDIA NIM Aktif</span>
+        </div>
+
+        <div class="ai-box">
+          <div class="ai-output" id="aiOutput">
+            👋 <strong>Merhaba!</strong> Ben BiyoKalp Tower'ın NVIDIA AI destekli hidrolik danışmanıyım. Aşağıdaki butona basarak binadaki tüm hidrostatik basınç, daire tüketimleri ve bodrum arıtma santralinin anlık telemetri analizini Llama 3.3 70B ile çalıştırabilirsiniz.
+          </div>
+          <div class="ai-input-row">
+            <input type="text" id="aiUserInput" class="ai-input" placeholder="Örn: 5. kattaki basınç düşerse ne yapmalıyım? Veya sistemi analiz et...">
+            <button class="action-btn-sm primary" id="btnAskAI" onclick="askNvidiaAI()">⚡ Sor / Analiz Et</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Notification Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="config.js"></script>
+  <script src="apartman.js"></script>
+</body>
+</html>

@@ -1,6 +1,9 @@
 # BiyoKalp 4-Tank Akıllı Su Geri Dönüşüm Sistemi - Wokwi Bağlantı Rehberi
 
-Bu rehber, Wokwi simülasyon ortamında BiyoKalp sistemini kurmak için gerekli tüm donanım ve kablolama bilgilerini içerir.
+> 🚀 **EN HIZLI & HATASIZ YÖNTEM:**  
+> Kabloları tek tek elle bağlamakla uğraşmak istemiyorsanız; Wokwi'de **diagram.json** sekmesini açın ve hazırladığımız [`wokwi/diagram.json`](diagram.json) dosyasının içeriğini yapıştırın! Tüm devre (ESP32, LCD, 4 sensör, 6 LED, 2 buton, 2 potansiyometre ve buzzer) **1 saniyede otomatik olarak bağlanacaktır.**
+
+Bu rehber, Wokwi simülasyon ortamında BiyoKalp sistemini kurmak veya manuel kontrol etmek için gerekli tüm donanım ve kablolama bilgilerini içerir.
 
 ## 1. Donanım Listesi
 - **1x** ESP32 DevKit V1
