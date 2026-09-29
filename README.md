@@ -8,6 +8,9 @@
 [![NVIDIA NIM](https://img.shields.io/badge/NVIDIA%20NIM-Llama%203.3%2070B-76b900.svg)](https://build.nvidia.com)
 [![Target: MIT & ISEF](https://img.shields.io/badge/Competition-MIT%20%26%20ISEF%20Ready-purple.svg)]()
 
+> 🌐 **CANLI SİTE BAĞLANTILARI (LIVE DEMOS):**  
+> 🏢 **[BiyoKalp Tower (Apartman & Rezidans Modeli)](https://arda1218-a.github.io/sustainable-greywater-iot/apartman.html)** • 🏡 **[Müstakil Ev Modeli](https://arda1218-a.github.io/sustainable-greywater-iot/)** • 📽️ **[Akademik Jüri Sunumu](https://arda1218-a.github.io/sustainable-greywater-iot/sunum/index.html)**
+
 ---
 
 ## 🌟 Projeye Genel Bakış (Project Overview)
@@ -33,11 +36,11 @@ BiyoKalp, insan kardiyovasküler dolaşım sisteminden (sağ/sol atriyum, ventri
 
 ## 🖥️ Canlı Web Dashboard'ları & Sunum (Web Dashboards)
 
-| Arayüz | Dosya | Açıklama |
-|---|---|---|
-| 🏡 **Müstakil Ev Dashboard'u** | [`index.html`](index.html) | 4 tankın canlı su seviyeleri, sensör göstergeleri (pH, TDS, Bulanıklık) ve karıştırma sayaçları. |
-| 🏢 **Apartman & Rezidans Dashboard'u** | [`apartman.html`](apartman.html) | 5, 10 ve 20+ katlı bina hidrolik kesiti, daire başı 750L tampon rezerv, otomatik pompa çağrısı ve **NVIDIA AI Baş Mühendisi**. |
-| 📽️ **Akademik Jüri Sunumu** | [`sunum/index.html`](sunum/index.html) | 15 slaytlık, koyu temalı, yön tuşlarıyla kontrol edilen MIT & ISEF seviyesi interaktif sunum. |
+| Arayüz | Canlı Bağlantı (Live URL) | Kaynak Dosya | Açıklama |
+|---|---|---|---|
+| 🏢 **Apartman & Rezidans Dashboard'u** | [**Canlı Aç (apartman.html)**](https://arda1218-a.github.io/sustainable-greywater-iot/apartman.html) | [`apartman.html`](apartman.html) | 5, 10 ve 20+ katlı bina hidrolik kesiti, daire tampon rezervi ve **NVIDIA Llama 3.3 AI**. |
+| 🏡 **Müstakil Ev Dashboard'u** | [**Canlı Aç (index.html)**](https://arda1218-a.github.io/sustainable-greywater-iot/) | [`index.html`](index.html) | 4 tankın canlı su seviyeleri, sensörler (pH, TDS, Bulanıklık) ve karıştırma sayaçları. |
+| 📽️ **Akademik Jüri Sunumu** | [**Canlı Aç (sunum)**](https://arda1218-a.github.io/sustainable-greywater-iot/sunum/index.html) | [`sunum/index.html`](sunum/index.html) | 15 slaytlık, klavye yön tuşlarıyla kontrol edilen interaktif akademik sunum. |
 
 ---
 
