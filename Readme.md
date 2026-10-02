@@ -1,3 +1,24 @@
+## ⚖️ Fikri Mülkiyet, Bağımsızlık & Hak Sahipliği Beyanı (Intellectual Property Statement)
+
+> ### 📌 ÖNEMLİ HUKUKİ VE AKADEMİK BİLDİRİM:
+> **Bu projenin (BiyoKalp ve BiyoKalp Tower) tüm fikri mülkiyet, tasarım, mimari ve telif hakları tamamen ve münhasıran ARDA'ya aittir.**
+> 
+> * **Kurumsal Bağımsızlık:** Bu çalışma, yazarın kayıtlı olduğu, kazandığı veya ileride eğitim alacağı **hiçbir üniversitenin, enstitünün, araştırma merkezinin veya üçüncü taraf akademik kurumun dahiliyeti, finansmanı, akademik danışmanlığı, gözetimi veya laboratuvar katkısı OLMADAN**, %100 bağımsız kişisel bir AR-GE girişimi olarak ortaya konmuştur.
+> * **Hak İddiası Kısıtlaması:** Hiçbir üniversite veya eğitim kurumu bu projenin algoritmaları, donanım şemaları, hidrolik mimarisi veya patent potansiyeli üzerinde kurumsal hak veya ortaklık iddia edemez.
+> 
+> ---
+> 
+> ### 🤝 Geliştirici Rolleri & İnsan-Yapay Zeka Ortak Mühendisliği (Human-AI Co-Engineering)
+> Bu proje, modern çağın öncül **İnsan + Yapay Zeka (Centaur Engineering)** felsefesiyle hayata geçirilmiştir:
+> 
+> * **👤 Baş Mimar & Proje Sahibi (Lead Inventor & Chief Architect) — Arda:**
+>   * Kalp sirkülasyonundan esinlenen kardiyovasküler biyomimetik konseptin fikir babası.
+>   * 4-Tanklı ayrık gri su yönetimi, karantina tankı prensibi ve daire tampon rezervi mimarisinin kurgulanması.
+>   * Çok katlı yapılarda basınç zonlama, hidrostatik dengeleme ve tüm sistem gereksinimlerinin belirlenmesi.
+> * **🤖 Yapay Zeka Mühendislik Ortağı (AI Co-Engineer & Technical Multiplier) — Antigravity AI:**
+>   * Donanım bağlantı matrisinin (`diagram.json`) ve C++ Edge AI algoritmalarının kodlanması.
+>   * Asenkron web dashboard'ları, telemetri motoru ve NVIDIA NIM Llama 3.3 entegrasyonu desteği.
+>   * Hidrolik matematik modellerin ve akademik rapor belgelerinin derlenmesi.
 # 📝 BiyoKalp — Geliştirici Not Defteri
 
 ## 💡 Projeyi Zirveye Taşıyacak 3 Ekstra Öneri (Maliyetsiz / Yüksek Etkili)
